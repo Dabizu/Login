@@ -20,11 +20,17 @@ namespace Login.Controllers
         [Route("logiarte")]
         public IActionResult Get(string user1, string password1)
         {
-                var usuarios= context.Users;
-
-                var result = usuarios.Where(usuarios => usuarios.user == user1 && usuarios.password == password1);
-                
+            var usuarios = context.Users;
+            var result = usuarios.Where(usuarios => usuarios.user.Equals(user1) && usuarios.password.Equals(password1));
+            Console.WriteLine("estos son el numero de datos: "+result.Count()+"\n");
+            if (result.Count() > 0) {
                 return Ok(result);
+            }
+            else
+            {
+                return BadRequest();
+            }
+            
         }
     }
 
