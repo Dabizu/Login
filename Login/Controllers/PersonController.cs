@@ -40,28 +40,35 @@ namespace Login.Controllers
             var result = usuarios.Where(usuarios => usuarios.user.Equals(usua));
             Console.WriteLine("estos son el numero de datos: " + result.Count() + "\n");
             Console.WriteLine(result);
-            
+            bool banderaUsuario = false, banderaPassword = false;
             if (result.Count() > 0)
             {
+                //la razon porque entro aqui es porque la consulta encontro un usuario igual
+                Console.WriteLine("entro al usuario");
                 foreach (var persona in result)
                 {
                     Console.WriteLine(persona.user);
                     string resDesPassword = des.Decrypt(persona.password);
-                    var resultpassword = usuarios.Where(usuarios => usuarios.password.Equals(resDesPassword));
-                    foreach(var personb in resultpassword)
+                    if (resDesPassword.Equals(pass))
                     {
-                        if (personb.password.Equals(pass))
-                        {
-                            return Ok(resultpassword);
-                        }
-                        else
-                        {
-                            return BadRequest();
-                        }
+                        Console.WriteLine("el password es correcto");
+                        banderaPassword= true;
                     }
-                    
+                    else
+                    {
+                        banderaPassword= false;
+                    }
                 }
-                return Ok(result);
+                banderaUsuario = true;
+            }
+            else
+            {
+                banderaUsuario=false;
+            }
+
+            if(banderaUsuario==true&&banderaPassword==true)
+            {
+                return Ok();
             }
             else
             {
