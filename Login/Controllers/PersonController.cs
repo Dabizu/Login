@@ -84,11 +84,13 @@ namespace Login.Controllers
 
         [HttpGet]
         [Route("registraPersona")]
-        public IActionResult GetjsonRegistro()
+        public IActionResult GetjsonRegistro(string json)
         {
+            JObject job = JObject.Parse(json);
             Descifrador des = new Descifrador();
-            
-            User user = new User { user = "manuel", password = des.Encrypt("1234") };
+            string usua = (String)job.GetValue("user");
+            string pass = (String)job.GetValue("password");
+            User user = new User { user = usua, password = des.Encrypt(pass) };
             context.Users.Add(user);
             context.SaveChanges();
             return Ok();
