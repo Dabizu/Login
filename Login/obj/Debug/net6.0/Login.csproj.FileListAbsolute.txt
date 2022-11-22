@@ -68,3 +68,4 @@ C:\Users\user\Documents\ApiPruebaBaseDatos\Login\Login\bin\Debug\net6.0\runtimes
 C:\Users\user\Documents\ApiPruebaBaseDatos\Login\Login\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\Users\user\Documents\ApiPruebaBaseDatos\Login\Login\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.pdb
 C:\Users\user\Documents\ApiPruebaBaseDatos\Login\Login\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
+C:\Users\user\Documents\ApiPruebaBaseDatos\Login\Login\bin\Debug\net6.0\RestSharp.dll
