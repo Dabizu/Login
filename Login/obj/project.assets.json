@@ -5884,19 +5884,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\user\\.nuget\\packages\\": {}
+    "C:\\Users\\ATK\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\user\\Documents\\ApiPruebaBaseDatos\\Login\\Login\\Login.csproj",
+      "projectUniqueName": "C:\\Users\\ATK\\Source\\Repos\\Login\\Login\\Login.csproj",
       "projectName": "Login",
-      "projectPath": "C:\\Users\\user\\Documents\\ApiPruebaBaseDatos\\Login\\Login\\Login.csproj",
-      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\user\\Documents\\ApiPruebaBaseDatos\\Login\\Login\\obj\\",
+      "projectPath": "C:\\Users\\ATK\\Source\\Repos\\Login\\Login\\Login.csproj",
+      "packagesPath": "C:\\Users\\ATK\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ATK\\Source\\Repos\\Login\\Login\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ATK\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

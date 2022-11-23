@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
 namespace Login.Controllers.Herramientas
 {
     public class Descifrador
-    {
+    {        
         string key { get; set; } = "A!9HHhi%XjjYY4YP2@Nob009X";
         public string Encrypt(string text)
         {
@@ -46,10 +45,5 @@ namespace Login.Controllers.Herramientas
                 }
             }
         }
-        /*
-        internal string Encrypt(JToken? jToken)
-        {
-            throw new NotImplementedException();
-        }*/
     }
 }

@@ -1,17 +1,8 @@
 ﻿using Login.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
-using System;
-using System.Linq;
-using RestSharp;
-using System.Text.Json.Nodes;
 using Newtonsoft.Json.Linq;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Security.Cryptography;
-using System.Text;
-using System.IdentityModel.Tokens.Jwt;
 using Login.Controllers.Herramientas;
-using System.Runtime.Intrinsics.X86;
+
 
 namespace Login.Controllers
 {
@@ -29,7 +20,6 @@ namespace Login.Controllers
         [Route("logiartePersona")]
         public IActionResult Getjson(string json)
         {
-
             JObject job= JObject.Parse(json);
             Descifrador des= new Descifrador();
             Console.WriteLine(job.GetValue("user"));
@@ -68,25 +58,12 @@ namespace Login.Controllers
 
             if(banderaUsuario==true&&banderaPassword==true)
             {
-                return Ok();
+                return Ok(true);
             }
             else
             {
                 return BadRequest();
             }
-            
-            /*
-            var usuarios = context.Users;
-            var result = usuarios.Where(usuarios => usuarios.user.Equals(user1) && usuarios.password.Equals(password1));
-            Console.WriteLine("estos son el numero de datos: " + result.Count() + "\n");
-            if (result.Count() > 0)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest();
-            }*/
         }
 
         [HttpGet]
@@ -100,13 +77,9 @@ namespace Login.Controllers
             User user = new User { user = usua, password = des.Encrypt(pass) };
             context.Users.Add(user);
             context.SaveChanges();
-            return Ok();
+            return Ok(true);
         }
-       
-
     }
-
-
 }
 
 /*
