@@ -55,7 +55,7 @@ namespace Login.Controllers
             }
             return result;
         }
-        [HttpPost]
+        [HttpGet]
         [Route("BuscaTipo")]
         public IActionResult dameTipo(string tipo) {
             var encontradoTipo = _context.Users.Where(a => a.type == tipo).Select(a=>new {a.user,a.type});
