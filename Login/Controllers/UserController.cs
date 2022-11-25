@@ -55,5 +55,14 @@ namespace Login.Controllers
             }
             return result;
         }
+        [HttpPost]
+        [Route("BuscaTipo")]
+        public IActionResult dameTipo(string tipo) {
+            var encontradoTipo = _context.Users.Where(a => a.type == tipo).Select(a=>new {a.user,a.type});
+            if (encontradoTipo.Count() >0)
+                return Ok(encontradoTipo);
+            else
+                return BadRequest("El usuario o la contraseña no coinciden!");
+        }
     }
 }
