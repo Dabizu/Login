@@ -21,7 +21,7 @@ namespace Login.Controllers
         {
             var listaProductos = _context.Productos.Where(p => p.Nombre.Equals(res.Nombre));
             int numeroRegistros = (int)listaProductos.Count();
-            if( numeroRegistros < 2){
+            if( numeroRegistros < 9){
                 Producto producto = new Producto { Nombre = res.Nombre , Marca =res.Marca};
                 //producto.Nombre = res.Nombre;
                 //producto.Marca = res.Marca;
