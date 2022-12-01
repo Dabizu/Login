@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Login.Controllers
 {
@@ -38,9 +39,56 @@ namespace Login.Controllers
             }
             else
             {
-                return BadRequest("El usuario o la contraseña no coinciden!");
+                return BadRequest("Ya hay 9 productos identicos registra uno distinto!");
             }
         }
+
+        [HttpPost]
+        [Route("registrarUsuarioProducto")]
+        public IActionResult usuarioProductoREgistrar([FromBody] RequestProductoEncrip r)
+        {
+            //string input = "a94652aa97c7211ba8954dd15a3cf838";
+            var tipoUsuario = _context.Users.Where(u => u.user.Equals(r.Usuario)).Select(u => new {u.type}).FirstOrDefault();
+            string tipo =(String) tipoUsuario.type.ToString();
+            try
+            {
+                if (tipo.Equals("admin"))
+                {
+                    Producto producto = new Producto()
+                    {
+                        Nombre = r.Usuario,
+                        Marca = r.Marca,
+                        Usuario = GetMD5Hash(r.Usuario)
+                    };
+                    _context.Productos.Add(producto);
+                    _context.SaveChanges();
+                    return NoContent();
+                }
+                else
+                {
+                    return BadRequest("es esclavo");
+                }
+                
+                
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        private static String GetMD5Hash(string input)
+        {
+            string result = String.Empty;
+            using (var myHash = MD5.Create())
+            {
+                var byteArrayResultOfRawData = Encoding.UTF8.GetBytes(input);
+                var byteArrayResult = myHash.ComputeHash(byteArrayResultOfRawData);
+                result = string.Concat(Array.ConvertAll(byteArrayResult, h => h.ToString("X2")));
+            }
+            return result;
+        }
+
         [HttpGet]
         [Route("ListarProducto")]
         public IActionResult Get()
