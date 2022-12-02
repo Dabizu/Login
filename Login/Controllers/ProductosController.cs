@@ -15,7 +15,7 @@ namespace Login.Controllers
         {
             _context = context;
         }
-
+        /*
         [HttpPost]
         [Route("RegisterProducto")]
         public IActionResult RegistarProducto([FromBody] RequestProducto res)
@@ -41,39 +41,39 @@ namespace Login.Controllers
             {
                 return BadRequest("Ya hay 9 productos identicos registra uno distinto!");
             }
-        }
+        }*/
 
         [HttpPost]
-        [Route("registrarUsuarioProducto")]
+        [Route("RegisterProducto")]
         public IActionResult usuarioProductoREgistrar([FromBody] RequestProductoEncrip r)
         {
+            var listaProductos = _context.Productos.Where(p => p.Nombre.Equals(r.Nombre));
+            int numeroRegistros = (int)listaProductos.Count();
             //string input = "a94652aa97c7211ba8954dd15a3cf838";
-            var tipoUsuario = _context.Users.Where(u => u.user.Equals(r.Usuario)).Select(u => new {u.type}).FirstOrDefault();
-            string tipo =(String) tipoUsuario.type.ToString();
-            try
+            var tipoUsuario = _context.Users.Where(u => u.user.Equals(r.Usuario)).Select(u => new { u.type }).FirstOrDefault();
+            string tipo = (String)tipoUsuario.type.ToString();
+            if (numeroRegistros < 9 && tipo.Equals("admin"))
             {
-                if (tipo.Equals("admin"))
+                Producto producto = new Producto()
                 {
-                    Producto producto = new Producto()
-                    {
-                        Nombre = r.Usuario,
-                        Marca = r.Marca,
-                        Usuario = GetMD5Hash(r.Usuario)
-                    };
+                    Nombre = r.Usuario,
+                    Marca = r.Marca,
+                    Usuario = GetMD5Hash(r.Usuario)
+                };
+                try
+                {
                     _context.Productos.Add(producto);
                     _context.SaveChanges();
                     return NoContent();
                 }
-                else
+                catch (Exception ex)
                 {
-                    return BadRequest("es esclavo");
+                    return BadRequest(ex.Message);
                 }
-                
-                
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest(ex.Message);
+                return BadRequest("Ya hay 9 productos identicos registra uno distinto!");
             }
         }
 
