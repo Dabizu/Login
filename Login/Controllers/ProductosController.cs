@@ -42,21 +42,54 @@ namespace Login.Controllers
                 return BadRequest("Ya hay 9 productos identicos registra uno distinto!");
             }
         }*/
+        //band = registraProducto(r);
+        //var listaProductos = _context.Productos.Where(p => p.Nombre.Equals(r.Nombre));
+        //int numeroRegistros = (int)listaProductos.Count();
+        //string input = "a94652aa97c7211ba8954dd15a3cf838";
 
         [HttpPost]
         [Route("RegisterProducto")]
         public IActionResult usuarioProductoREgistrar([FromBody] RequestProductoEncrip r)
         {
-            var listaProductos = _context.Users;
+            var listaUsuarios = _context.Users;
             bool band=false;
-            foreach(var item in listaProductos)
+            var arrayUsuarios=listaUsuarios.ToArray();
+            for(int i=0;i<arrayUsuarios.Length;i++)
             {
-                Console.WriteLine("item: "+item.user);
-                var user= MD5Hash(item.user);
+                Console.WriteLine("item: " + arrayUsuarios[i].user);
+                var user= MD5Hash(arrayUsuarios[i].user);
                 if(user.Equals(r.Usuario))
                 {
                     Console.WriteLine("soy el usuario admin");
-                    band = registraProducto(r);
+                    int numeroRegistros = (int)_context.Productos.Where(p => p.Nombre.Equals(r.Nombre)).Count();
+                    var tipoUsuario = _context.Users.Where(u => u.user.Equals(arrayUsuarios[i].user)).Select(u => new { u.type });
+                    var array = tipoUsuario.ToArray();
+                    Console.WriteLine("informacion: " + array[0].type);
+                    //return Ok(tipoUsuario);
+                    if (numeroRegistros < 9 && array[0].type.Equals("admin"))
+                    {
+                        Producto producto = new Producto()
+                        {
+                            Nombre = r.Nombre,
+                            Marca = r.Marca
+                        };
+                        try
+                        {
+                            _context.Productos.Add(producto);
+                            _context.SaveChanges();
+                            band = true;
+                            //return NoContent();
+                        }
+                        catch (Exception ex)
+                        {
+                            return BadRequest(ex.Message);
+                        }
+                        
+                    }
+                    else
+                    {
+                        return BadRequest("Ya hay 9 productos identicos registra uno distinto!");
+                    }
                     break;
                 }
                 else
@@ -64,7 +97,7 @@ namespace Login.Controllers
                     Console.WriteLine("no soy el usuario");
                 }
             }
-
+            
             if (band==true)
             {
                 return NoContent();
@@ -110,6 +143,7 @@ namespace Login.Controllers
             }*/
         }
 
+        /*
         public bool registraProducto(RequestProductoEncrip r)
         {
             var listaProductos = _context.Productos.Where(p => p.Nombre.Equals(r.Nombre));
@@ -142,7 +176,7 @@ namespace Login.Controllers
                 //return BadRequest("Ya hay 9 productos identicos registra uno distinto!");
                 return false;
             }
-        }
+        }*/
 
 
         public static string MD5Hash(string text)
