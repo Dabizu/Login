@@ -53,50 +53,59 @@ namespace Login.Controllers
         {
             var listaUsuarios = _context.Users;
             bool band=false;
-            var arrayUsuarios=listaUsuarios.ToArray();
-            for(int i=0;i<arrayUsuarios.Length;i++)
-            {
-                Console.WriteLine("item: " + arrayUsuarios[i].user);
-                var user= MD5Hash(arrayUsuarios[i].user);
-                if(user.Equals(r.Usuario))
+            int numeroRegistros = (int)_context.Productos.Where(p => p.Nombre.Equals(r.Nombre)).Count();
+            if(numeroRegistros < 9) {
+                var arrayUsuarios = listaUsuarios.ToArray();
+                for (int i = 0; i < arrayUsuarios.Length; i++)
                 {
-                    Console.WriteLine("soy el usuario admin");
-                    int numeroRegistros = (int)_context.Productos.Where(p => p.Nombre.Equals(r.Nombre)).Count();
-                    var tipoUsuario = _context.Users.Where(u => u.user.Equals(arrayUsuarios[i].user)).Select(u => new { u.type });
-                    var array = tipoUsuario.ToArray();
-                    Console.WriteLine("informacion: " + array[0].type);
-                    //return Ok(tipoUsuario);
-                    if (numeroRegistros < 9 && array[0].type.Equals("admin"))
+                    Console.WriteLine("item: " + arrayUsuarios[i].user);
+                    var user = MD5Hash(arrayUsuarios[i].user);
+                    if (user.Equals(r.Usuario))
                     {
-                        Producto producto = new Producto()
+                        Console.WriteLine("soy el usuario admin");
+
+                        var tipoUsuario = _context.Users.Where(u => u.user.Equals(arrayUsuarios[i].user)).Select(u => new { u.type });
+                        var array = tipoUsuario.ToArray();
+                        Console.WriteLine("informacion: " + array[0].type);
+                        //return Ok(tipoUsuario);
+                        //if (numeroRegistros < 9 && array[0].type.Equals("admin"))
+                        if (array[0].type.Equals("admin"))
                         {
-                            Nombre = r.Nombre,
-                            Marca = r.Marca
-                        };
-                        try
-                        {
-                            _context.Productos.Add(producto);
-                            _context.SaveChanges();
-                            band = true;
-                            //return NoContent();
+                            Producto producto = new Producto()
+                            {
+                                Nombre = r.Nombre,
+                                Marca = r.Marca
+                            };
+                            try
+                            {
+                                _context.Productos.Add(producto);
+                                _context.SaveChanges();
+                                band = true;
+                                //return NoContent();
+                            }
+                            catch (Exception ex)
+                            {
+                                return BadRequest(ex.Message);
+                            }
+
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            return BadRequest(ex.Message);
+                            return BadRequest("el usuario no es admin!");
                         }
-                        
+                        break;
                     }
                     else
                     {
-                        return BadRequest("Ya hay 9 productos identicos registra uno distinto!");
+                        Console.WriteLine("no es el usuario buscado");
                     }
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("no soy el usuario");
                 }
             }
+            else
+            {
+                Console.WriteLine("ya no hay cupos para registrar productos iguales registre uno diferente");
+            }
+            
             
             if (band==true)
             {
